@@ -6,21 +6,28 @@ namespace FMG
 	{
 	public class LevelUnlocker : MonoBehaviour {
 		public Text levelText;
-		// Use this for initialization
-		void Start () {
 
-			levelText.text  = "Unlock level: " + Application.loadedLevel;
-			if(Application.loadedLevel< Constants.getMaxLevel() )
-			{
+		int nextLevel;
+
+		void Start () 
+		{
+			nextLevel = Application.loadedLevel + 1;
+
+			if(Application.loadedLevel >= Constants.totalLevelCount )
 				Destroy(gameObject);
-			}
+
+			levelText.text  = "Unlock level: " + (nextLevel);
+			if(Application.loadedLevel< Constants.getMaxLevel() )
+				levelText.text  = "Next level: " + (nextLevel);
 		}
 
 		public void unlock()
 		{
-			int nextMaxLevel = Constants.getMaxLevel()+1;
-			Constants.setMaxLevel(nextMaxLevel);
-			Destroy(gameObject);
+
+			if(nextLevel > Constants.getMaxLevel() )
+				Constants.setMaxLevel(nextLevel);
+
+			Application.LoadLevel(nextLevel);
 		}
 		
 

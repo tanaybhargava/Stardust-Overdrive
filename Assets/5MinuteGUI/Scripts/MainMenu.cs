@@ -55,7 +55,6 @@ namespace FMG
 				creditsMenu.SetActive(false);
 				mainMenu.SetActive(true);
 			}
-
 			
 			if(str.Equals("OptionsBack"))
 			{
@@ -68,6 +67,11 @@ namespace FMG
 				mainMenu.SetActive(false);
 			}
 
+			if(str.Equals("Reset"))
+			{
+				PlayerPrefs.DeleteAll();
+				Debug.Log("Deleted Prefs");
+			}
 
 		}
 	}

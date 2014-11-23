@@ -5,39 +5,33 @@ public class Done_GameController : MonoBehaviour
 {
 	public GameObject[] hazards;
 	public Vector3 spawnValues;
-	public int hazardCount;
 	public float spawnWait;
 	public float startWait;
 	public float waveWait;
 	
-	public GUIText scoreText;
-	public GUIText restartText;
-	public GUIText gameOverText;
-	
 	private bool gameOver;
-	private bool restart;
-	private int score;
+	
+	public GameObject[] Players;
+
+	public float LevelTime = 30;
+
+	public GameObject LevelFinishObject;
+
+	public int hazardCount;
 	
 	void Start ()
 	{
 		gameOver = false;
-		restart = false;
-		restartText.text = "";
-		gameOverText.text = "";
-		score = 0;
-		UpdateScore ();
 		StartCoroutine (SpawnWaves ());
-	}
-	
-	void Update ()
-	{
-		if (restart)
+
+		if(FMG.Constants.getNumberOfPlayers() ==2)
 		{
-			if (Input.GetKeyDown (KeyCode.R))
-			{
-				Application.LoadLevel (Application.loadedLevel);
-			}
+			Players[1].SetActive(true);
+		
+			Players[0].transform.position += new Vector3(-7,0,0);
+			Players[1].transform.position += new Vector3(7,0,0);
 		}
+
 	}
 	
 	IEnumerator SpawnWaves ()
@@ -56,28 +50,52 @@ public class Done_GameController : MonoBehaviour
 			yield return new WaitForSeconds (waveWait);
 			
 			if (gameOver)
+				break;
+
+			if(Time.timeSinceLevelLoad > LevelTime)
 			{
-				restartText.text = "Press 'R' for Restart";
-				restart = true;
+				Instantiate (LevelFinishObject, new Vector3(0,spawnValues.y,spawnValues.z), Quaternion.identity);
 				break;
 			}
 		}
+
 	}
-	
-	public void AddScore (int newScoreValue)
+
+	public void LevelFailed ()
 	{
-		score += newScoreValue;
-		UpdateScore ();
+		if(gameOver)
+			return;
+		FinishGame ();
+		MenuControl.instance.ResetLevel ();
+		DestroyPlayers ();
 	}
-	
-	void UpdateScore ()
+
+	public void LevelSuccess()
 	{
-		scoreText.text = "Score: " + score;
+		if(gameOver)
+			return;
+		DestroyPlayers ();
+		FinishGame ();
+		Invoke ("showEndMenu", 3F);
 	}
-	
-	public void GameOver ()
+
+	public void showEndMenu()
 	{
-		gameOverText.text = "Game Over!";
+		MenuControl.instance.NextLevel ();
+	}
+
+	public void FinishGame()
+	{
 		gameOver = true;
 	}
+
+	public void DestroyPlayers()
+	{
+		foreach(GameObject obj in Players)
+		{
+			if(obj!= null)
+				obj.SetActive(false);
+		}
+	}
+
 }

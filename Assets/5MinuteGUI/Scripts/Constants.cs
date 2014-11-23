@@ -6,6 +6,8 @@ namespace FMG
 	
 	public class Constants  
 	{
+		public static int totalLevelCount = 10;
+
 		public static float getAudioVolume()
 		{
 			return PlayerPrefs.GetFloat("AudioVolume",1);
@@ -23,5 +25,13 @@ namespace FMG
 			PlayerPrefs.SetInt("MAX_LEVEL",val);
 		}
 
+		public static int getNumberOfPlayers()
+		{
+			return PlayerPrefs.GetInt("NUM_PLAYERS",1);
+		}
+		public static void setNumberOfPlayers(int val)
+		{
+			PlayerPrefs.SetInt("NUM_PLAYERS",val);
+		}
 	}
 }
