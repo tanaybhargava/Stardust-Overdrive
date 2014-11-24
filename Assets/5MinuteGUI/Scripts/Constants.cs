@@ -6,7 +6,7 @@ namespace FMG
 	
 	public class Constants  
 	{
-		public static int totalLevelCount = 10;
+		public static int totalLevelCount = 5;
 
 		public static float getAudioVolume()
 		{

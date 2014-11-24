@@ -14,11 +14,16 @@ namespace FMG
 			nextLevel = Application.loadedLevel + 1;
 
 			if(Application.loadedLevel >= Constants.totalLevelCount )
-				Destroy(gameObject);
-
-			levelText.text  = "Unlock level: " + (nextLevel);
-			if(Application.loadedLevel< Constants.getMaxLevel() )
-				levelText.text  = "Next level: " + (nextLevel);
+			{
+				levelText.text  = "Mission Complete";
+				nextLevel = 0;
+			}
+			else
+			{
+				levelText.text  = "Unlock level: " + (nextLevel);
+				if(Application.loadedLevel< Constants.getMaxLevel() )
+					levelText.text  = "Next level: " + (nextLevel);
+			}
 		}
 
 		public void unlock()

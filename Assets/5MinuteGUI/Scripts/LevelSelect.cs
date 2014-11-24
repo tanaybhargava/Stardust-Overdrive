@@ -43,7 +43,7 @@ namespace FMG
 		void Awake () {
 
 			int cellsPerPage = nomPerCol * nomPerRow;
-			int tmpNomLevels = Application.levelCount;
+			int tmpNomLevels = Constants.totalLevelCount+1;
 			while(tmpNomLevels > 0)
 			{
 				tmpNomLevels-=cellsPerPage;
@@ -77,7 +77,7 @@ namespace FMG
 				pos.x = startPos.x;
 				for(int j=0; j<nomPerCol; j++)
 				{
-					if(n<Application.levelCount)
+					if(n<Constants.totalLevelCount+1)
 					{
 						GameObject newObject = (GameObject)Instantiate(levelButton,Vector3.zero,Quaternion.identity);
 						newObject.transform.parent = newPage.transform;

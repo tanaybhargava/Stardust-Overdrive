@@ -16,10 +16,18 @@ public class PlayerControl : MonoBehaviour
 	public Boundary boundary;
 	
 	public GameObject shot;
+
 	public Transform shotSpawn;
+
 	public float fireRate;
 
 	public string playerNumber = "1";
+
+	public GameObject playerExplosion;
+
+	public TextMesh bulletText;
+
+	public int initialBulletCount = 10;
 
 	//Controls
 	private string horizontal = "Horizontal";
@@ -28,24 +36,31 @@ public class PlayerControl : MonoBehaviour
 
 	private float nextFire;
 
+	private int bulletCount = 0;
+
+	private int shotType;
+
 	void Start()
 	{
 		// Set controls
 		horizontal += playerNumber;
 		vertical += playerNumber;
 		fire += playerNumber;
+
+		changeBulletCount (initialBulletCount);
 	}
 	
 	void Update ()
 	{
-		if (Input.GetButton(fire) && Time.time > nextFire) 
+		if (Input.GetButton(fire) && Time.time > nextFire && bulletCount>0) 
 		{
 			nextFire = Time.time + fireRate;
 			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
 			audio.Play ();
+			changeBulletCount(-1);
 		}
 	}
-	
+
 	void FixedUpdate ()
 	{
 		float moveHorizontal = Input.GetAxis (horizontal);
@@ -62,5 +77,21 @@ public class PlayerControl : MonoBehaviour
 				);
 		
 		rigidbody.rotation = Quaternion.Euler (0.0f, 0.0f, rigidbody.velocity.x * -tilt);
+	}
+
+	void OnTriggerEnter (Collider other)
+	{
+		if (other.tag == "Player")
+		{
+			Instantiate(playerExplosion, transform.position, transform.rotation);
+			Done_GameController.instance.LevelFailed();
+			Destroy (gameObject);
+		}
+	}
+
+	void changeBulletCount(int add)
+	{
+		bulletCount += add;
+		bulletText.text = bulletCount.ToString();
 	}
 }
