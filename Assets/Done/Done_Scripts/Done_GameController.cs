@@ -66,7 +66,7 @@ public class Done_GameController : MonoBehaviour
 		{
 			spawnEnable = false;
 			yield return new WaitForSeconds (1.5F);
-			Instantiate (LevelFinishObject, new Vector3(0,spawnValues.y,spawnValues.z), Quaternion.identity);
+			spawnFinish ();
 		}
 	}
 
@@ -82,7 +82,12 @@ public class Done_GameController : MonoBehaviour
 			yield return new WaitForSeconds (spawnWaitTime);
 		}
 	}
-	
+
+	public void spawnFinish ()
+	{
+		Instantiate (LevelFinishObject, new Vector3(0,spawnValues.y,spawnValues.z), Quaternion.identity);
+	}
+
 	public void LevelFailed ()
 	{
 		if(gameOver)
