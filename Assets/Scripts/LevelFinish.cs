@@ -18,9 +18,10 @@ public class LevelFinish: MonoBehaviour
 		}
 	}
 	
-	void OnTriggerEnter (Collider other)
+	void OnTriggerEnter (Collider otherCollider)
 	{
-		if (other.tag == "Player")
+		Transform colliderRoot = otherCollider.transform.root;
+		if (colliderRoot.tag == "Player")
 		{
 			gameController.LevelSuccess();
 			rigidbody.velocity = transform.forward * 2.5F;

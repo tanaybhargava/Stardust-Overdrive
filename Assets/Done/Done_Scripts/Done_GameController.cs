@@ -49,8 +49,6 @@ public class Done_GameController : MonoBehaviour
 			Players[0].transform.position += new Vector3(-7,0,0);
 			Players[1].transform.position += new Vector3(7,0,0);
 
-			hazardSpawnWait /= 0.75F;
-			enemySpawnWait /= 0.75F;
 		}
 
 		StartCoroutine (LevelTimer());

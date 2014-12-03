@@ -3,18 +3,22 @@ using System.Collections;
 
 public class Shield : MonoBehaviour {
 
-	void OnTriggerEnter (Collider other)
+	void OnTriggerEnter (Collider otherCollider)
 	{
-		if (other.tag == "Player")
+
+		Transform colliderRoot = otherCollider.transform.root;
+
+
+		if (colliderRoot.tag == "Player")
 		{
-			transform.parent = other.transform;
-			transform.position = other.transform.position;
+			transform.parent = colliderRoot;
+			transform.position = colliderRoot.position;
 			transform.rigidbody.isKinematic = true;
 			transform.tag = "Shield";
 		}
 
-		if(other.name.Contains("Bolt") && transform.CompareTag("Shield"))
-			Destroy(other.gameObject);
+		if(colliderRoot.name.Contains("Bolt") && transform.CompareTag("Shield"))
+			Destroy(colliderRoot.gameObject);
 	}
 	
 	bool up = true;

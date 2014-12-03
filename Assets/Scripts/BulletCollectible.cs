@@ -7,11 +7,13 @@ public class BulletCollectible : MonoBehaviour
 	public int scoreValue;
 
 	
-	void OnTriggerEnter (Collider other)
+	void OnTriggerEnter (Collider otherCollider)
 	{
-		if (other.tag == "Player")
+		Transform colliderRoot = otherCollider.transform.root;
+
+		if (colliderRoot.tag == "Player")
 		{
-			other.SendMessage("changeBulletCount",scoreValue);
+			colliderRoot.SendMessage("changeBulletCount",scoreValue);
 			Destroy (gameObject);
 		}
 	}
