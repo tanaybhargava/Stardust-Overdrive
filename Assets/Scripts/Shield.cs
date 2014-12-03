@@ -18,7 +18,10 @@ public class Shield : MonoBehaviour {
 		}
 
 		if(colliderRoot.name.Contains("Bolt") && transform.CompareTag("Shield"))
+		{
+			Destroy(gameObject);
 			Destroy(colliderRoot.gameObject);
+		}
 	}
 	
 	bool up = true;
@@ -39,7 +42,7 @@ public class Shield : MonoBehaviour {
 		else
 		{
 			alpha.a -=delta;
-			if(alpha.a < 0)
+			if(alpha.a < 0.15)
 				up = true;
 		}
 

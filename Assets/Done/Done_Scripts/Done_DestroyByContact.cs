@@ -23,9 +23,9 @@ public class Done_DestroyByContact : MonoBehaviour
 
 	void OnTriggerEnter (Collider otherCollider)
 	{
-		Transform colliderRoot = otherCollider.transform.root;
+		Transform colliderRoot = otherCollider.transform;
 
-		if (colliderRoot.tag == "Boundary" || colliderRoot.tag == "Enemy" || colliderRoot.tag == "Boss")
+		if (colliderRoot.tag == "Boundary" || colliderRoot.tag == "Enemy" || colliderRoot.tag == "Boss" || colliderRoot.tag == "Shield")
 		{
 			return;
 		}
@@ -35,13 +35,13 @@ public class Done_DestroyByContact : MonoBehaviour
 			Instantiate(explosion, transform.position, transform.rotation);
 		}
 
-		if (colliderRoot.tag == "Player")
+		if (otherCollider.tag == "Player")
 		{
 			Instantiate(playerExplosion, colliderRoot.transform.position, colliderRoot.transform.rotation);
 			gameController.LevelFailed();
 		}
 		
-		Destroy (colliderRoot.gameObject);
+		Destroy (colliderRoot.root.gameObject);
 		Destroy (gameObject);
 	}
 }
